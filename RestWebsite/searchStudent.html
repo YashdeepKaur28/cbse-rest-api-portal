@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Search Student</title></head>
+<body>
+<h3>Search Student</h3>
+<form id="searchForm">
+    ID: <input type="number" id="id" required><br>
+    <input type="submit" value="Search">
+    <input type="button" value="Back" onclick="location.href='index.html'">
+</form>
+<div id="result"></div>
+
+<script>
+document.getElementById('searchForm').onsubmit = function(e) {
+    e.preventDefault();
+    var x = new XMLHttpRequest();
+    x.open("GET", "rest/students/" + document.getElementById('id').value, true);
+    x.onreadystatechange = function() {
+        if (x.readyState === 4) {
+            var r = document.getElementById('result');
+            if (x.status === 200) {
+                var s = JSON.parse(x.responseText);
+                r.innerHTML = "<h3>Student Result Card</h3>" +
+                    "<table border='1'><tr><th>Subject</th><th>Marks</th></tr>" +
+                    "<tr><td>Name: </td><td>" + s.name + "</td></tr>" +
+                    "<tr><td>Class: </td><td>" + s.className + "</td></tr>" +
+                    "<tr><td>Maths</td><td>" + s.mathMarks + "</td></tr>" +
+                    "<tr><td>Science</td><td>" + s.scienceMarks + "</td></tr>" +
+                    "<tr><td>English</td><td>" + s.englishMarks + "</td></tr>" +
+                    "<tr><td>Hindi</td><td>" + s.hindiMarks + "</td></tr>" +
+                    "<tr><td>Social Science</td><td>" + s.sstMarks + "</td></tr>" +
+                    "<tr><td>Total: </td><td>" + s.totalMarks + "</td></tr>" +
+                    "<tr><td>Percentage: </td><td>" + s.percentage + "</td></tr>" +
+                    "<tr><td>Grade: </td><td>" + s.grade + "</td></tr></table>" +
+                    "<a href='rest/excel/students/" + s.studentId + "'>Download</a>";
+            } else {
+                r.innerHTML = "<h3>No student found with ID: " +
+                    document.getElementById('id').value + "</h3>";
+            }
+        }
+    };
+    x.send();
+};
+</script>
+</body>
+</html>

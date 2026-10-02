@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Result</title></head>
+<body>
+<h3 id="msg"></h3>
+<a id="retry" href="#">Try Again</a> |
+<a href="index.html">Home</a>
+
+<script>
+var p = new URLSearchParams(window.location.search);
+var msg = p.get("msg") || "Done.";
+var type = p.get("type") || "success";
+var next = p.get("next") || "index.html";
+
+document.getElementById("msg").innerHTML = msg;
+if (type === "error") {
+    document.getElementById("msg").style.color = "red";
+}
+document.getElementById("retry").href = next;
+document.getElementById("retry").innerHTML = 
+    next.indexOf("addStudent") >= 0 ? "Add Another" :
+    next.indexOf("updateStudent") >= 0 ? "Update Another" :
+    next.indexOf("deleteStudent") >= 0 ? "Delete Another" : "Try Again";
+</script>
+</body>
+</html>

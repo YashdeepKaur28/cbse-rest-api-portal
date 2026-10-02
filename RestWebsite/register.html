@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Register</title></head>
+<body>
+<h3>Register New User</h3>
+<div id="msg"></div>
+<form id="regForm">
+    Username: <input type="text" id="username" required><br>
+    Password: <input type="password" id="password" required><br>
+    Email: <input type="email" id="email" required><br>
+    <input type="submit" value="Register">
+</form>
+<br><a href="login.html">Already registered? Login</a>
+
+<script>
+document.getElementById('regForm').onsubmit = function(e) {
+    e.preventDefault();
+    var m = document.getElementById('msg');
+    m.style.color = "blue";
+    m.innerHTML = "Registering...";
+    var d = "username=" + encodeURIComponent(document.getElementById('username').value)
+          + "&password=" + encodeURIComponent(document.getElementById('password').value)
+          + "&email=" + encodeURIComponent(document.getElementById('email').value);
+    var x = new XMLHttpRequest();
+    x.open("POST", "rest/users/register", true);
+    x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    x.onreadystatechange = function() {
+        if (x.readyState === 4) {
+            if (x.status === 200) {
+                window.location.replace("login.html");
+            } else {
+                var msg;
+                try { msg = JSON.parse(x.responseText).message; }
+                catch (e) { msg = "Error " + x.status; }
+                m.style.color = "red";
+                m.innerHTML = msg + "<br><br><a href='register.html'>Register Again</a> | <a href='login.html'>Login</a>";
+            }
+        }
+    };
+    x.send(d);
+};
+</script>
+</body>
+</html>

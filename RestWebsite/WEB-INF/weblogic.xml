@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wls:weblogic-web-app
+    xmlns:wls="http://xmlns.oracle.com/weblogic/weblogic-web-app"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.oracle.com/weblogic/weblogic-web-app
+    http://xmlns.oracle.com/weblogic/weblogic-web-app/1.7/weblogic-web-app.xsd">
+    <wls:container-descriptor>
+        <wls:prefer-application-packages>
+            <wls:package-name>com.sun.jersey.*</wls:package-name>
+            <wls:package-name>com.sun.research.ws.wadl.*</wls:package-name>
+            <wls:package-name>com.sun.ws.rs.ext.*</wls:package-name>
+            <wls:package-name>org.codehaus.jackson.*</wls:package-name>
+            <wls:package-name>org.codehaus.jettison.*</wls:package-name>
+            <wls:package-name>javax.ws.rs.*</wls:package-name>
+        </wls:prefer-application-packages>
+    </wls:container-descriptor>
+</wls:weblogic-web-app>

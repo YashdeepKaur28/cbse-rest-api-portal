@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Display All Students</title>
+<style>table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }</style>
+</head>
+<body>
+<h2>All Students - CBSE Result</h2>
+<a href="rest/excel/students">Download all results</a><br><br>
+<button onclick="load()">View All</button>
+<div id="result"></div>
+<br><a href="index.html">Back to Home</a>
+
+<script>
+function load() {
+    var x = new XMLHttpRequest();
+    x.open("GET", "rest/students", true);
+    x.onreadystatechange = function() {
+        if (x.readyState === 4 && x.status === 200) {
+            var arr = JSON.parse(x.responseText);
+            var html = "<table><tr><th>ID</th><th>Name</th><th>Class</th><th>Maths</th>" +
+                       "<th>Science</th><th>English</th><th>Hindi</th><th>SST</th>" +
+                       "<th>Total</th><th>%</th><th>Grade</th></tr>";
+            for (var i = 0; i < arr.length; i++) {
+                var s = arr[i];
+                html += "<tr><td>" + s.studentId + "</td><td>" + s.name + "</td>" +
+                        "<td>" + s.className + "</td><td>" + s.mathMarks + "</td>" +
+                        "<td>" + s.scienceMarks + "</td><td>" + s.englishMarks + "</td>" +
+                        "<td>" + s.hindiMarks + "</td><td>" + s.sstMarks + "</td>" +
+                        "<td>" + s.totalMarks + "</td><td>" + s.percentage + "</td>" +
+                        "<td>" + s.grade + "</td></tr>";
+            }
+            document.getElementById('result').innerHTML = html + "</table>";
+        }
+    };
+    x.send();
+}
+</script>
+</body>
+</html>

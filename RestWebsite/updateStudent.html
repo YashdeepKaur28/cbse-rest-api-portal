@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Update Marks</title></head>
+<body>
+<h3>Update Student Marks</h3>
+<form id="upForm">
+    ID: <input type="number" id="id" required><br>
+    Maths: <input type="number" id="math" min="0" max="100" step="any" required><br>
+    Science: <input type="number" id="science" min="0" max="100" step="any" required><br>
+    English: <input type="number" id="english" min="0" max="100" step="any" required><br>
+    Hindi: <input type="number" id="hindi" min="0" max="100" step="any" required><br>
+    Social Science: <input type="number" id="sst" min="0" max="100" step="any" required><br>
+    <input type="submit" value="Update">
+    <input type="button" value="Back" onclick="location.href='index.html'">
+</form>
+
+<script>
+document.getElementById('upForm').onsubmit = function(e) {
+    e.preventDefault();
+    var d = "math=" + document.getElementById('math').value
+          + "&science=" + document.getElementById('science').value
+          + "&english=" + document.getElementById('english').value
+          + "&hindi=" + document.getElementById('hindi').value
+          + "&sst=" + document.getElementById('sst').value;
+    var x = new XMLHttpRequest();
+    x.open("POST", "rest/students/update/" + document.getElementById('id').value, true);
+    x.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    x.onreadystatechange = function() {
+        if (x.readyState === 4) {
+            var msg, type;
+            try {
+                msg = JSON.parse(x.responseText).message;
+                type = (x.status === 200) ? "success" : "error";
+            } catch (err) {
+                msg = "Error " + x.status;
+                type = "error";
+            }
+            window.location.href = "result.html?type=" + type
+                + "&msg=" + encodeURIComponent(msg)
+                + "&next=updateStudent.html";
+        }
+    };
+    x.send(d);
+};
+</script>
+</body>
+</html>

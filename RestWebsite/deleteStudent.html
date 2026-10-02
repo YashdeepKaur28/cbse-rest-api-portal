@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Delete Student</title></head>
+<body>
+<h3>Delete Student</h3>
+<form id="delForm">
+    ID: <input type="number" id="id" required><br>
+    <input type="submit" value="Delete">
+    <input type="button" value="Back" onclick="location.href='index.html'">
+</form>
+
+<script>
+document.getElementById('delForm').onsubmit = function(e) {
+    e.preventDefault();
+    var x = new XMLHttpRequest();
+    x.open("POST", "rest/students/delete/" + document.getElementById('id').value, true);
+    x.onreadystatechange = function() {
+        if (x.readyState === 4) {
+            var msg, type;
+            try {
+                msg = JSON.parse(x.responseText).message;
+                type = (x.status === 200) ? "success" : "error";
+            } catch (err) {
+                msg = "Error " + x.status;
+                type = "error";
+            }
+            window.location.href = "result.html?type=" + type
+                + "&msg=" + encodeURIComponent(msg)
+                + "&next=deleteStudent.html";
+        }
+    };
+    x.send();
+};
+</script>
+</body>
+</html>
